@@ -1,6 +1,6 @@
-### API Express for FC connect token 
+# API Express for FC connect token 
 
-#CONFIG file : 
+### CONFIG : 
 
 ```
 config = {
