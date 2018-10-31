@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const secp256k1 = require('secp256k1');
 const config = require('./config').config;
+const buffer = require('buffer');
 
 let private_key_ECDSA_back = config.private_key_ECDSA_back;
 let public_key_ECDSA_back = config.public_key_ECDSA_back;
@@ -23,9 +24,11 @@ if (private_key_ECDSA_back === '') {
         private_key_ECDSA_back = crypto.randomBytes(32)
     } while (!secp256k1.privateKeyVerify(private_key_ECDSA_back));
     public_key_ECDSA_back = secp256k1.publicKeyCreate(private_key_ECDSA_back);
+    console.log(private_key_ECDSA_back.toString());
+    console.log(public_key_ECDSA_back.toString());
+} else {
+    private_key_ECDSA_back = Buffer.from(private_key_ECDSA_back,'hex').toString('binary');
 }
-console.log(private_key_ECDSA_back.toString());
-console.log(public_key_ECDSA_back.toString());
 
 function randomValueHex(len) {
     return crypto

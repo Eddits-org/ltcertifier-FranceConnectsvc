@@ -4,6 +4,6 @@ module.exports.config = {
     client_id : process.env.CLIENT_ID || '',
     client_secret : process.env.CLIENT_SECRET || '',
     FRONT_URL_REDIRECT : process.env.FRONT || 'https://EDDITS.io',
-    private_key_ECDSA_back : process.env.PRIVATE_KEY || '',
-    public_key_ECDSA_back : process.env.PUBLIC_KEY || ''
+    private_key_ECDSA_back : process.env.PRIVATE_KEY || '', // HEXADECIMAL
+    public_key_ECDSA_back : process.env.PUBLIC_KEY || ''// HEXADECIMAL
 }
