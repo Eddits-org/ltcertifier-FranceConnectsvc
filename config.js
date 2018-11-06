@@ -1,9 +1,10 @@
 module.exports.config = {
-    FC_URL : process.env.FC_URL || 'https://fcp.integ01.dev-franceconnect.fr',
+    fcURL : process.env.FC_URL || 'https://fcp.integ01.dev-franceconnect.fr',
     urlServer : process.env.URL_SERVER || 'http://localhost:3000',
     client_id : process.env.CLIENT_ID || '',
     client_secret : process.env.CLIENT_SECRET || '',
-    FRONT_URL_REDIRECT : process.env.FRONT || 'https://EDDITS.io',
+    frontUrlRedirect : process.env.FRONT || 'https://eddits.io/identity/manage',
     private_key_ECDSA_back : process.env.PRIVATE_KEY || '', 
-    corsAllowedOrigins: (process.env.ORIGINS ? process.env.ORIGINS.split(',') : [])
+    corsAllowedOrigins: (process.env.ORIGINS ? process.env.ORIGINS.split(',') : []),
+    overrideRedirect: (process.env.OVERRIDE_REDIRECT === 'true' || false)
 }

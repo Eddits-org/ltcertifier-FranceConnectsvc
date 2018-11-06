@@ -7,7 +7,7 @@ const Joi = require('joi');
 const Boom = require('boom');
 const router = express.Router();
 
-const { FC_URL, urlServer, client_id, client_secret } = require('../config').config;
+const { fcURL, urlServer, client_id, client_secret, frontUrlRedirect, overrideRedirect } = require('../config').config;
 const StateService = require('../services/State');
 const ECDSAService = require('../services/ECDSA');
 
@@ -42,7 +42,7 @@ router.get('/', (req, res, next) => {
     const config = {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     };
-    axios.post(`${FC_URL}/api/v1/token`, request, config).then((response) => {
+    axios.post(`${fcURL}/api/v1/token`, request, config).then((response) => {
       const id_token = response.data.id_token;
       jwt.verify(id_token, client_secret, ((err) => {
         if(err) return next(Boom.unauthorized('Invalid id_token signature'));
@@ -50,14 +50,20 @@ router.get('/', (req, res, next) => {
         const decoded = decodeJWT(id_token);
         // Signature id_token with private_key ECDSA
         const sig = ECDSAService.sign(decoded);
-        return res.json({
+        // Build response
+        const response = {
           jwt: decoded,
-          sigature: {
+          signature: {
             r: `0x${sig.signature.slice(0, 32).toString('hex')}`,
             s: `0x${sig.signature.slice(32, 64).toString('hex')}`,
             v: sig.recovery + 27
           }
-        });
+        };
+        // Encode response as Base64
+        const encodedResponse = base64url.encode(JSON.stringify(response), 'utf8');
+        // Build redirection URL
+        const redirectUrl = `${overrideRedirect && objectStore.redirectUrl ? objectStore.redirectUrl : frontUrlRedirect}#fcResponse=${encodedResponse}`;
+        return res.redirect(redirectUrl);
       }));
     }).catch((err) => {
         return next(err);

@@ -2,8 +2,6 @@ const cors = require('cors');
 
 const { corsAllowedOrigins } = require('../config').config;
 
-console.log(corsAllowedOrigins);
-
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);

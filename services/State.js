@@ -7,7 +7,7 @@ class State {
   }
 
   setState(key, state) {
-    this.storedStateAndNonce.set(key, { state });
+    this.storedStateAndNonce.set(key, state);
   }
 
   getState(key) {
